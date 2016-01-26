@@ -1,0 +1,5 @@
+1、直接导入maven工程
+2、mr 右键 properties -> Project Facets -> 转换项目类型 为 Dynamic web modules (修改webcontent路径src/main/webapp) 和 java(默认配置) 
+3、mr 右键properties -> deployment assembly -> add -> java build path entries -> maven -> ok
+4、修改数据库配置文件
+5、导入数据库，修改数据库manager表，添加管理员(1,admin,E10ADC3949BA59ABBE56E057F20F883E)即可 ，去/mr/admin/home登陆

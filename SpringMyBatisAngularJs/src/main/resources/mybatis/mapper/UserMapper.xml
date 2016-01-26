@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.horas.mapper.user">
+
+	<sql id="userDetailsColumns">
+        username,firstname,middlename,lastname,marga,alamat,gender,status
+	</sql>
+        
+	 
+        <sql id="insertUserColumns">
+		username,
+		password,
+                enabled,
+                email
+	</sql>
+         <sql id="insertRoleColumns">
+		username,
+		role
+	</sql>
+	 
+	<resultMap type="com.horas.dto.UserDetail" id="userDetailsResult">		 
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		 <result column="firstname" property="firstname" jdbcType="VARCHAR" />
+                 <result column="middlename" property="middlename" jdbcType="VARCHAR" />
+                 <result column="lastname" property="lastname" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getUserDetail" resultMap="userDetailsResult">
+		select
+			<include refid="userDetailsColumns" />
+		from userdetails where username=#{username}
+	</select>
+        
+        <insert id="signup" parameterType="com.horas.dto.User">
+		insert into users (
+			<include refid="insertUserColumns" />
+		) values (
+			#{username, jdbcType=VARCHAR},
+			#{password, jdbcType=VARCHAR},
+                        #{enabled,jdbcType=VARCHAR},
+                        #{email,jdbcType=VARCHAR}
+		)
+	</insert>
+         <insert id="insertRole" parameterType="com.horas.dto.Role">
+		insert into role (
+			<include refid="insertRoleColumns" />
+		) values (
+			#{username, jdbcType=VARCHAR},
+			#{role, jdbcType=VARCHAR}
+		)
+	</insert>
+        <insert id="insertUserDetails" parameterType="com.horas.dto.UserDetail">
+            insert into userdetails (
+			<include refid="userDetailsColumns" />
+		) values (
+			#{username, jdbcType=VARCHAR},
+			#{firstname, jdbcType=VARCHAR},
+                        #{middlename,jdbcType=VARCHAR},
+                        #{lastname,jdbcType=VARCHAR},
+                        #{marga, jdbcType=VARCHAR},
+			#{alamat, jdbcType=VARCHAR},
+                        #{gender,jdbcType=VARCHAR},
+                        #{status,jdbcType=VARCHAR}
+		)
+        </insert>
+    
+</mapper>

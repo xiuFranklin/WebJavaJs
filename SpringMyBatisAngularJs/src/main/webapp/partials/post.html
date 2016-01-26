@@ -1,0 +1,60 @@
+
+			
+<table class="table table-striped">
+     <tr>
+        <td>{{postings}}</td>
+    </tr>
+     <tr>
+        <td>{{panjang}}</td>
+    </tr>
+    <tr ng-repeat="post in posts | limitTo: itemsLimit()">
+        <td>{{post.news}}</td>
+        
+    </tr>
+</table>
+ <button class="btn btn-info" ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()"><i class="icon-plus icon-white"></i> Show More</button>
+
+ <form>
+    <fieldset>
+        <legend>
+            <msg key="newPost"></msg>
+        </legend>
+
+        <label>
+            <msg key="news"></msg>
+        </label>
+        <input type="text" ng-model="post.news"/>
+
+       
+
+        <label></label>
+        <button type="submit" class="btn" ng-click="save()">
+            <msg key="save"></msg>
+        </button>
+    </fieldset>
+</form>
+
+ 
+
+<div ng-controller="slideCtrl">
+  <div style="height: 305px">
+    <carousel interval="myInterval">
+      <slide ng-repeat="slide in slides" active="slide.active">
+        <img ng-src="{{slide.image}}" style="margin:auto;">
+        <div class="carousel-caption">
+          <h4>Slide {{$index}}</h4>
+          <p>{{slide.text}}</p>
+        </div>
+      </slide>
+    </carousel>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
+    </div>
+    <div class="col-md-6">
+      Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
+      <br />Enter a negative number or 0 to stop the interval.
+    </div>
+  </div>
+</div>

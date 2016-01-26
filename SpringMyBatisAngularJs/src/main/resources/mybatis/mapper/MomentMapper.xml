@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.horas.mapper.moment">
+
+	<sql id="momentColumns">
+         id_moment,username,moment,idAlbum,friendlist,place,create_date,update_date,ip_create,ip_update
+	</sql>
+
+	<sql id="insertMomentColumns">
+         id_moment,username,moment,idAlbum,friendlist,place,create_date,update_date,ip_create,ip_update
+	</sql>
+        
+ 	<resultMap type="com.horas.dto.Moment" id="momentResult">
+		<id column="id_moment" property="idMoment"  typeHandler="UUIDTypeHandler" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="moment" property="moment" jdbcType="VARCHAR" />
+                <result column="idAlbum" property="idAlbum"  jdbcType="VARCHAR" />
+                <result column="friendlist" property="friendlist" jdbcType="VARCHAR" />
+                <result column="place" property="place" jdbcType="VARCHAR" />
+                <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+                <result column="update_date" property="updateDate" jdbcType="DATE" />
+                <result column="ip_create" property="ipCreate" jdbcType="VARCHAR" />
+                <result column="ip_update" property="ipUpdate" jdbcType="VARCHAR" />
+                
+                <collection property="albums"  ofType="com.horas.dto.Album"
+                            javaType="ArrayList" resultMap="albumResult" columnPrefix="album_" notNullColumn="id"/>
+	</resultMap> 
+        
+        <resultMap type="com.horas.dto.Album" id="albumResult">
+                <result column="id" property="id" jdbcType="VARCHAR"/>
+                <result column="photo" property="photo" jdbcType="VARCHAR"/>
+                <result column="extension" property="extension" jdbcType="VARCHAR"/>
+        </resultMap> 
+        
+ 	<select id="getMoment" resultMap="momentResult">
+		  select a.id_moment,a.username,a.moment,a.idAlbum,a.friendlist,a.place,
+                  a.create_date,a.update_date,a.ip_create,a.ip_update,b.id as album_id,b.photo as album_photo,
+                  b.extension as album_extension   
+                  from mst_moment a left outer join album b on a.id_moment=b.idMoment
+	</select>
+        
+    <select id="getMomentByAlbum" resultMap="momentResult">
+		select
+			<include refid="momentColumns" />
+		from mst_moment where idAlbum = #{idAlbum}
+	</select>
+        
+<!--        <select id="getNewsById" resultMap="newsResult">
+		select
+			<include refid="newsColumns" />
+		from news 
+                         where idNews =#{id}
+                        
+	</select>-->
+        
+        
+
+ 	<insert id="insertMoment" parameterType="com.horas.dto.Moment">
+		insert into mst_moment (
+			<include refid="insertMomentColumns" />
+		) values (
+			#{idMoment,typeHandler=UUIDTypeHandler},
+                        #{username,jdbcType=VARCHAR},
+                        #{moment,jdbcType=VARCHAR},
+                        #{idAlbum,jdbcType=VARCHAR},
+                        #{friendlist,jdbcType=VARCHAR},
+                        #{place,jdbcType=VARCHAR},
+                        #{createDate,jdbcType=VARCHAR},
+                        #{updateDate,jdbcType=DATE},
+                        #{ipCreate,jdbcType=VARCHAR},
+                        #{ipUpdate,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>
